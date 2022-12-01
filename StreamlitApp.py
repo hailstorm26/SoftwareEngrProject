@@ -1,7 +1,6 @@
 import streamlit as st
 import pickle
 from pathlib import Path
-import streamlit_authenticator as stauth
 import yaml
 from streamlit_authenticator import Authenticate
 from yaml import SafeLoader
@@ -10,8 +9,6 @@ st.set_page_config(page_title="Movie Booking System", page_icon=":movie_camera:"
 
 
 # log in
-hashed_passwords = stauth.Hasher(['123', '456']).generate()
-
 with open('credentials.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
