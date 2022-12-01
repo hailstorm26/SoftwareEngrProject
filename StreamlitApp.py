@@ -1,25 +1,27 @@
 import streamlit as st
-import pickle
-from pathlib import Path
-import yaml
-from streamlit_authenticator import Authenticate
-from yaml import SafeLoader
+import streamlit_authenticator
 
 st.set_page_config(page_title="Movie Booking System", page_icon=":movie_camera:", layout="wide")
 
-
 # log in
-with open('credentials.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
+usernames = ['jsmith', 'rbriggs']
+names = ['John Smith', 'Rebecca Briggs']
+passwords = ['123', '456']
+hashed_passwords = streamlit_authenticator.Hasher(passwords).generate()
 
-authenticator = Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
-
+credentials = {
+    "usernames": {
+        usernames[0]: {
+            "name": names[0],
+            "password": hashed_passwords[0]
+        },
+        usernames[1]: {
+            "name": names[1],
+            "password": hashed_passwords[1]
+        }
+    }
+}
+authenticator = streamlit_authenticator.Authenticate(credentials, "app_home", "auth", cookie_expiry_days=30)
 name, authentication_status, username = authenticator.login('Log in', 'main')
 
 # home page
