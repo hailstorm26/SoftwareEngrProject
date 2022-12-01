@@ -20,17 +20,20 @@ authenticator = Authenticate(
     config['preauthorized']
 )
 
-name, authentication_status, username = authenticator.login('Login', 'main')
-
-if not authentication_status:
-    st.error("username or password is incorrect")
-if authentication_status is None:
-    st.warning("Please enter your username and password")
+name, authentication_status, username = authenticator.login('Log in', 'main')
 
 # home page
-if authentication_status:
-    authenticator.logout("Logout", "main")
+if st.session_state["authentication_status"]:
+    authenticator.logout("Logout", "sidebar")
+    st.sidebar.title(f"Welcome {name}")
+
     st.title("Home")
     st.button("Search Movies")
     st.button("Browse Current Movie Catalog")
     st.button("Browse Upcoming Movie Catalog")
+
+# login failure
+elif st.session_state["authentication_status"] is False:
+    st.error("username or password is incorrect")
+elif st.session_state["authentication_status"] is None:
+    st.warning("Please enter your username and password")
