@@ -30,9 +30,7 @@ if st.session_state["authentication_status"]:
     st.sidebar.title(f"Welcome {name}")
 
     st.title("Home")
-    st.button("Search Movies")
-    st.button("Browse Current Movie Catalog")
-    st.button("Browse Upcoming Movie Catalog")
+
 
 # login failure
 elif st.session_state["authentication_status"] is False:
